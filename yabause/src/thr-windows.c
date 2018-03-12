@@ -299,7 +299,7 @@ static int init = 0;
 void *enterSynchronizationBarrier = NULL;
 
 static void DoDynamicInit() {
-  HMODULE mon_module LoadLibrary(_T"kernel32.dll");
+  HINSTANCE mon_module = LoadLibrary("kernel32.dll");
   if(mon_module != NULL)
   {
    enterSynchronizationBarrier = GetProcAddress(mon_module, "EnterSynchronizationBarrier");
@@ -336,7 +336,7 @@ void YabThreadBarrierWait(YabBarrier *bar){
       SetEvent(pctx->empty);
       if (wait) {
         while (pctx->current != 0)
-          WaitForSingleObject(queue->empty,INFINITE);
+          WaitForSingleObject(pctx->empty,INFINITE);
       }
     }
 }
