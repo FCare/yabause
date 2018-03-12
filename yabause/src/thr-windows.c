@@ -295,19 +295,14 @@ void YabThreadFreeMutex( YabMutex * mtx ){
 //////////////////////////////////////////////////////////////////////////////
 
 static int init = 0;
-
-typedef BOOL WINAPI ( * EnterSynchronizationBarrier_fct)(_Inout_ LPSYNCHRONIZATION_BARRIER lpBarrier, _In_ DWORD dwFlags);
  
-EnterSynchronizationBarrier_fct enterEnterSynchronizationBarrier = NULL;
-
+void *enterSynchronizationBarrier = NULL;
 
 static void DoDynamicInit() {
   HMODULE mon_module LoadLibrary(_T"kernel32.dll");
   if(mon_module != NULL)
   {
-   // la DLL existe
-   // chargement de la fonction
-   enterEnterSynchronizationBarrier = GetProcAddress(mon_module, "EnterSynchronizationBarrier");
+   enterSynchronizationBarrier = GetProcAddress(mon_module, "EnterSynchronizationBarrier");
   }
 }
 
@@ -326,7 +321,7 @@ void YabThreadBarrierWait(YabBarrier *bar){
     if (bar == NULL) return;
     YabBarrier_win32 * pctx;
     pctx = (YabBarrier_win32 *)bar;
-    if (enterEnterSynchronizationBarrier != NULL) {
+    if (enterSynchronizationBarrier != NULL) {
       EnterSynchronizationBarrier(&pctx->barrier, 0);
     } else {
       EnterCriticalSection(&pctx->mutex);
@@ -352,7 +347,7 @@ YabBarrier * YabThreadCreateBarrier(int nbWorkers){
       init = 1;
     }
     YabBarrier_win32 * mtx = (YabBarrier_win32 *)malloc(sizeof(YabBarrier_win32));
-    if (enterEnterSynchronizationBarrier != NULL) {
+    if (enterSynchronizationBarrier != NULL) {
       InitializeSynchronizationBarrier( &mtx->barrier, nbWorkers, -1 );
       return (YabBarrier *)mtx;
     } else {
