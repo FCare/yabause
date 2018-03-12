@@ -23,6 +23,7 @@
 */
 
 #include <windows.h>
+#include <WinDef.h>
 #include "core.h"
 #include "threads.h"
 
@@ -293,22 +294,74 @@ void YabThreadFreeMutex( YabMutex * mtx ){
 
 //////////////////////////////////////////////////////////////////////////////
 
+static int init = 0;
+
+typedef BOOL WINAPI ( * EnterSynchronizationBarrier_fct)(_Inout_ LPSYNCHRONIZATION_BARRIER lpBarrier, _In_ DWORD dwFlags);
+ 
+EnterSynchronizationBarrier_fct enterEnterSynchronizationBarrier = NULL;
+
+
+static void DoDynamicInit() {
+  HMODULE mon_module LoadLibrary(_T"kernel32.dll");
+  if(mon_module != NULL)
+  {
+   // la DLL existe
+   // chargement de la fonction
+   enterEnterSynchronizationBarrier = GetProcAddress(mon_module, "EnterSynchronizationBarrier");
+  }
+}
+
 typedef struct YabBarrier_win32
 {
   SYNCHRONIZATION_BARRIER barrier;
+  CRITICAL_SECTION mutex;
+  HANDLE empty;
+  int capacity;
+  int current;
+  int reset;
 } YabBarrier_win32;
 
 void YabThreadBarrierWait(YabBarrier *bar){
+    int wait = 0;
     if (bar == NULL) return;
     YabBarrier_win32 * pctx;
     pctx = (YabBarrier_win32 *)bar;
-    EnterSynchronizationBarrier(&pctx->barrier, 0);
+    if (enterEnterSynchronizationBarrier != NULL) {
+      EnterSynchronizationBarrier(&pctx->barrier, 0);
+    } else {
+      EnterCriticalSection(&pctx->mutex);
+      if (pctx->reset == 1) pctx->current = pctx->capacity;
+      pctx->reset = 0;
+      pctx->current--;
+      wait = (pctx->current != 0);
+      if (!wait) {
+        pctx->reset = 1;
+      }
+      LeaveCriticalSection(&pctx->mutex);
+      SetEvent(pctx->empty);
+      if (wait) {
+        while (pctx->current != 0)
+          WaitForSingleObject(queue->empty,INFINITE);
+      }
+    }
 }
 
 YabBarrier * YabThreadCreateBarrier(int nbWorkers){
+    if (init == 0) {
+      DoDynamicInit();
+      init = 1;
+    }
     YabBarrier_win32 * mtx = (YabBarrier_win32 *)malloc(sizeof(YabBarrier_win32));
-    InitializeSynchronizationBarrier( &mtx->barrier, nbWorkers, -1 );
-    return (YabBarrier *)mtx;
+    if (enterEnterSynchronizationBarrier != NULL) {
+      InitializeSynchronizationBarrier( &mtx->barrier, nbWorkers, -1 );
+      return (YabBarrier *)mtx;
+    } else {
+      InitializeCriticalSection(&mtx->mutex);
+      mtx->empty = CreateEvent(NULL, FALSE, FALSE, NULL);
+      mtx->capacity = nbWorkers;
+      mtx->current = nbWorkers;
+      mtx->reset = 0;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
