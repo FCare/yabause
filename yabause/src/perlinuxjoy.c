@@ -87,19 +87,19 @@ joymapping_struct joyMapping[MAPPING_NB] = {
    },
    {"Sony PLAYSTATION(R)3 Controller", 
       {
-         JS_EVENT_BUTTON<<8 | 4, //PERPAD_UP
-         JS_EVENT_BUTTON<<8 | 5, //PERPAD_RIGHT
-         JS_EVENT_BUTTON<<8 | 6, //PERPAD_DOWN
-         JS_EVENT_BUTTON<<8 | 7, //PERPAD_LEFT
-         JS_EVENT_BUTTON<<8 | 9,  //PERPAD_RIGHT_TRIGGER
-         JS_EVENT_BUTTON<<8 | 8,  //PERPAD_LEFT_TRIGGER
-         JS_EVENT_BUTTON<<8 | 3,  //PERPAD_START
-         JS_EVENT_BUTTON<<8 | 14, //PERPAD_A
-         JS_EVENT_BUTTON<<8 | 13, //PERPAD_B
-         JS_EVENT_BUTTON<<8 | 11, //PERPAD_C
-         JS_EVENT_BUTTON<<8 | 15, //PERPAD_X
-         JS_EVENT_BUTTON<<8 | 12, //PERPAD_Y
-         JS_EVENT_BUTTON<<8 | 10, //PERPAD_Z
+         JS_EVENT_BUTTON<<8 | 13, //PERPAD_UP
+         JS_EVENT_BUTTON<<8 | 16, //PERPAD_RIGHT
+         JS_EVENT_BUTTON<<8 | 14, //PERPAD_DOWN
+         JS_EVENT_BUTTON<<8 | 15, //PERPAD_LEFT
+         JS_EVENT_BUTTON<<8 | 4,  //PERPAD_RIGHT_TRIGGER
+         JS_EVENT_BUTTON<<8 | 5,  //PERPAD_LEFT_TRIGGER
+         JS_EVENT_BUTTON<<8 | 9,  //PERPAD_START
+         JS_EVENT_BUTTON<<8 | 0,  //PERPAD_A
+         JS_EVENT_BUTTON<<8 | 1,  //PERPAD_B
+         JS_EVENT_BUTTON<<8 | 7,  //PERPAD_C
+         JS_EVENT_BUTTON<<8 | 3,  //PERPAD_X
+         JS_EVENT_BUTTON<<8 | 2,  //PERPAD_Y
+         JS_EVENT_BUTTON<<8 | 6,  //PERPAD_Z
          -1,                      //PERMOUSE_LEFT
          -1,                      //PERMOUSE_MIDDLE
          -1,                      //PERMOUSE_RIGHT
@@ -116,9 +116,9 @@ joymapping_struct joyMapping[MAPPING_NB] = {
          -1,
          -1,                      //PERGUN_START
          -1,                      //PERGUN_AXIS
-         JS_EVENT_BUTTON<<8 | 16, //SERVICE_BUTTON_EXIT
-         -1,                      //SERVICE_BUTTON_TOGGLE
-         -1,                      //SERVICE_TOGGLE_EXIT
+         -1,                      //SERVICE_BUTTON_EXIT
+         JS_EVENT_BUTTON<<8 | 10, //SERVICE_BUTTON_TOGGLE
+         JS_EVENT_BUTTON<<8 | 9,  //SERVICE_TOGGLE_EXIT
       }
    },
    {"HuiJia  USB GamePad", 
