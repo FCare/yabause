@@ -33,6 +33,7 @@ u32  PERLinuxJoyScan(u32 flags);
 void PERLinuxJoyFlush(void);
 void PERLinuxKeyName(u32 key, char * name, int size);
 static void PERLinuxKeyPress(u32 key, u8 state);
+static int joycount = 0;
 
 int getSupportedJoy(const char *name);
 
@@ -274,7 +275,7 @@ static void KeyInit() {
   PortData_struct* portdata = NULL;
 
   PerPortReset();
-  for(i = 0; i < joycount; i++)
+  for(unsigned int i = 0; i < joycount; i++)
   {
     //Ports can handle 6 peripherals, fill port 1 first.
     if((joycount > 2 && i < 6) || i == 0)
@@ -349,7 +350,6 @@ typedef struct
 } perlinuxjoy_struct;
 
 static perlinuxjoy_struct * joysticks = NULL;
-static int joycount = 0;
 
 #define PACKEVENT(evt,joy) ((joy->id << 17) | getPerPadKey(evt.value, (evt.value < 0 ? 0x10000 : 0) | (evt.type << 8) | (evt.number), joy))
 #define THRESHOLD 1000
