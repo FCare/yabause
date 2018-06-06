@@ -271,39 +271,33 @@ joymapping_struct joyMapping[MAPPING_NB] = {
 
 static void KeyInit() {
   void * padbits;
+  PortData_struct* portdata = NULL;
 
   PerPortReset();
-  padbits = PerPadAdd(&PORTDATA1);
+  for(i = 0; i < joycount; i++)
+  {
+    //Ports can handle 6 peripherals, fill port 1 first.
+    if((joycount > 2 && i < 6) || i == 0)
+      portdata = &PORTDATA1;
+    else
+      portdata = &PORTDATA2;
 
-  PerSetKey(KEYPAD(PERPAD_UP, 0), PERPAD_UP, padbits);
-  PerSetKey(KEYPAD(PERPAD_RIGHT, 0), PERPAD_RIGHT, padbits);
-  PerSetKey(KEYPAD(PERPAD_DOWN, 0), PERPAD_DOWN, padbits);
-  PerSetKey(KEYPAD(PERPAD_LEFT, 0), PERPAD_LEFT, padbits);
-  PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, 0), PERPAD_RIGHT_TRIGGER, padbits);
-  PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, 0), PERPAD_LEFT_TRIGGER, padbits);
-  PerSetKey(KEYPAD(PERPAD_START, 0), PERPAD_START, padbits);
-  PerSetKey(KEYPAD(PERPAD_A, 0), PERPAD_A, padbits);
-  PerSetKey(KEYPAD(PERPAD_B, 0), PERPAD_B, padbits);
-  PerSetKey(KEYPAD(PERPAD_C, 0), PERPAD_C, padbits);
-  PerSetKey(KEYPAD(PERPAD_X, 0), PERPAD_X, padbits);
-  PerSetKey(KEYPAD(PERPAD_Y, 0), PERPAD_Y, padbits);
-  PerSetKey(KEYPAD(PERPAD_Z, 0), PERPAD_Z, padbits);
+    padbits = PerPadAdd(portdata);
 
-  padbits = PerPadAdd(&PORTDATA2);
-
-  PerSetKey(KEYPAD(PERPAD_UP, 1), PERPAD_UP, padbits);
-  PerSetKey(KEYPAD(PERPAD_RIGHT, 1), PERPAD_RIGHT, padbits);
-  PerSetKey(KEYPAD(PERPAD_DOWN, 1), PERPAD_DOWN, padbits);
-  PerSetKey(KEYPAD(PERPAD_LEFT, 1), PERPAD_LEFT, padbits);
-  PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, 1), PERPAD_RIGHT_TRIGGER, padbits);
-  PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, 1), PERPAD_LEFT_TRIGGER, padbits);
-  PerSetKey(KEYPAD(PERPAD_START, 1), PERPAD_START, padbits);
-  PerSetKey(KEYPAD(PERPAD_A, 1), PERPAD_A, padbits);
-  PerSetKey(KEYPAD(PERPAD_B, 1), PERPAD_B, padbits);
-  PerSetKey(KEYPAD(PERPAD_C, 1), PERPAD_C, padbits);
-  PerSetKey(KEYPAD(PERPAD_X, 1), PERPAD_X, padbits);
-  PerSetKey(KEYPAD(PERPAD_Y, 1), PERPAD_Y, padbits);
-  PerSetKey(KEYPAD(PERPAD_Z, 1), PERPAD_Z, padbits);
+    PerSetKey(KEYPAD(PERPAD_UP, joycount), PERPAD_UP, padbits);
+    PerSetKey(KEYPAD(PERPAD_RIGHT, joycount), PERPAD_RIGHT, padbits);
+    PerSetKey(KEYPAD(PERPAD_DOWN, joycount), PERPAD_DOWN, padbits);
+    PerSetKey(KEYPAD(PERPAD_LEFT, joycount), PERPAD_LEFT, padbits);
+    PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, joycount), PERPAD_RIGHT_TRIGGER, padbits);
+    PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, joycount), PERPAD_LEFT_TRIGGER, padbits);
+    PerSetKey(KEYPAD(PERPAD_START, joycount), PERPAD_START, padbits);
+    PerSetKey(KEYPAD(PERPAD_A, joycount), PERPAD_A, padbits);
+    PerSetKey(KEYPAD(PERPAD_B, joycount), PERPAD_B, padbits);
+    PerSetKey(KEYPAD(PERPAD_C, joycount), PERPAD_C, padbits);
+    PerSetKey(KEYPAD(PERPAD_X, joycount), PERPAD_X, padbits);
+    PerSetKey(KEYPAD(PERPAD_Y, joycount), PERPAD_Y, padbits);
+    PerSetKey(KEYPAD(PERPAD_Z, joycount), PERPAD_Z, padbits);
+  }
 
   padbits = PerCabAdd(NULL);
   PerSetKey(PERPAD_UP, PERPAD_UP, padbits);
