@@ -85,7 +85,7 @@ joymapping_struct joyMapping[MAPPING_NB] = {
          -1,                      //SERVICE_TOGGLE_EXIT
       }
    },
-   {"Sony PLAYSTATION(R)3 Controller", 
+   {"Sony PLAYSTATION(R)3 Controller", // DualShock 3 with hid-sony kernel module
       {
          JS_EVENT_BUTTON<<8 | 13, //PERPAD_UP
          JS_EVENT_BUTTON<<8 | 16, //PERPAD_RIGHT
@@ -229,7 +229,7 @@ joymapping_struct joyMapping[MAPPING_NB] = {
          JS_EVENT_BUTTON<<8 | 9, //SERVICE_TOGGLE_EXIT
       }
    },
-   {"Sony Computer Entertainment Wireless Controller",
+   {"Wireless Controller", // DualShock 4 with hid-sony kernel module
       {
          JS_EVENT_AXIS<<8 | 0x10000 | 7, //PERPAD_UP
          JS_EVENT_AXIS<<8 | 6, //PERPAD_RIGHT
