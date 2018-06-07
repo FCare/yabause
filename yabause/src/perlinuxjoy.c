@@ -33,7 +33,6 @@ u32  PERLinuxJoyScan(u32 flags);
 void PERLinuxJoyFlush(void);
 void PERLinuxKeyName(u32 key, char * name, int size);
 static void PERLinuxKeyPress(u32 key, u8 state);
-static int joycount = 0;
 
 int getSupportedJoy(const char *name);
 
@@ -268,37 +267,44 @@ joymapping_struct joyMapping[MAPPING_NB] = {
    },
 };
 
+static int joycount = 0;
+
 #define KEYPAD(key, player) ((player << 17)|key)
 
 static void KeyInit() {
   void * padbits;
-  PortData_struct* portdata = NULL;
 
-  PerPortReset();
-  for(unsigned int i = 0; i < joycount; i++)
-  {
-    //Ports can handle 6 peripherals, fill port 1 first.
-    if((joycount > 2 && i < 6) || i == 0)
-      portdata = &PORTDATA1;
-    else
-      portdata = &PORTDATA2;
+  padbits = PerPadAdd(&PORTDATA1);
 
-    padbits = PerPadAdd(portdata);
+  PerSetKey(KEYPAD(PERPAD_UP, 0), PERPAD_UP, padbits);
+  PerSetKey(KEYPAD(PERPAD_RIGHT, 0), PERPAD_RIGHT, padbits);
+  PerSetKey(KEYPAD(PERPAD_DOWN, 0), PERPAD_DOWN, padbits);
+  PerSetKey(KEYPAD(PERPAD_LEFT, 0), PERPAD_LEFT, padbits);
+  PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, 0), PERPAD_RIGHT_TRIGGER, padbits);
+  PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, 0), PERPAD_LEFT_TRIGGER, padbits);
+  PerSetKey(KEYPAD(PERPAD_START, 0), PERPAD_START, padbits);
+  PerSetKey(KEYPAD(PERPAD_A, 0), PERPAD_A, padbits);
+  PerSetKey(KEYPAD(PERPAD_B, 0), PERPAD_B, padbits);
+  PerSetKey(KEYPAD(PERPAD_C, 0), PERPAD_C, padbits);
+  PerSetKey(KEYPAD(PERPAD_X, 0), PERPAD_X, padbits);
+  PerSetKey(KEYPAD(PERPAD_Y, 0), PERPAD_Y, padbits);
+  PerSetKey(KEYPAD(PERPAD_Z, 0), PERPAD_Z, padbits);
 
-    PerSetKey(KEYPAD(PERPAD_UP, joycount), PERPAD_UP, padbits);
-    PerSetKey(KEYPAD(PERPAD_RIGHT, joycount), PERPAD_RIGHT, padbits);
-    PerSetKey(KEYPAD(PERPAD_DOWN, joycount), PERPAD_DOWN, padbits);
-    PerSetKey(KEYPAD(PERPAD_LEFT, joycount), PERPAD_LEFT, padbits);
-    PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, joycount), PERPAD_RIGHT_TRIGGER, padbits);
-    PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, joycount), PERPAD_LEFT_TRIGGER, padbits);
-    PerSetKey(KEYPAD(PERPAD_START, joycount), PERPAD_START, padbits);
-    PerSetKey(KEYPAD(PERPAD_A, joycount), PERPAD_A, padbits);
-    PerSetKey(KEYPAD(PERPAD_B, joycount), PERPAD_B, padbits);
-    PerSetKey(KEYPAD(PERPAD_C, joycount), PERPAD_C, padbits);
-    PerSetKey(KEYPAD(PERPAD_X, joycount), PERPAD_X, padbits);
-    PerSetKey(KEYPAD(PERPAD_Y, joycount), PERPAD_Y, padbits);
-    PerSetKey(KEYPAD(PERPAD_Z, joycount), PERPAD_Z, padbits);
-  }
+  padbits = PerPadAdd(&PORTDATA2);
+
+  PerSetKey(KEYPAD(PERPAD_UP, 1), PERPAD_UP, padbits);
+  PerSetKey(KEYPAD(PERPAD_RIGHT, 1), PERPAD_RIGHT, padbits);
+  PerSetKey(KEYPAD(PERPAD_DOWN, 1), PERPAD_DOWN, padbits);
+  PerSetKey(KEYPAD(PERPAD_LEFT, 1), PERPAD_LEFT, padbits);
+  PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, 1), PERPAD_RIGHT_TRIGGER, padbits);
+  PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, 1), PERPAD_LEFT_TRIGGER, padbits);
+  PerSetKey(KEYPAD(PERPAD_START, 1), PERPAD_START, padbits);
+  PerSetKey(KEYPAD(PERPAD_A, 1), PERPAD_A, padbits);
+  PerSetKey(KEYPAD(PERPAD_B, 1), PERPAD_B, padbits);
+  PerSetKey(KEYPAD(PERPAD_C, 1), PERPAD_C, padbits);
+  PerSetKey(KEYPAD(PERPAD_X, 1), PERPAD_X, padbits);
+  PerSetKey(KEYPAD(PERPAD_Y, 1), PERPAD_Y, padbits);
+  PerSetKey(KEYPAD(PERPAD_Z, 1), PERPAD_Z, padbits);
 
   padbits = PerCabAdd(NULL);
   PerSetKey(PERPAD_UP, PERPAD_UP, padbits);
@@ -319,6 +325,55 @@ static void KeyInit() {
   PerSetKey(PERJAMMA_MULTICART, PERJAMMA_MULTICART, padbits);
   PerSetKey(PERJAMMA_PAUSE, PERJAMMA_PAUSE, padbits);
 
+}
+
+static void PadInit(unsigned int player) {
+  void *controller;
+  PortData_struct* portdata = NULL;
+
+  if((joycount > 2 && player < 6) || i == 0)
+    portdata = &PORTDATA1;
+  else
+    portdata = &PORTDATA2;
+
+  controller = PerPadAdd(portdata);
+
+  PerSetKey(KEYPAD(PERPAD_UP, player), PERPAD_UP, controller);
+  PerSetKey(KEYPAD(PERPAD_RIGHT, player), PERPAD_RIGHT, controller);
+  PerSetKey(KEYPAD(PERPAD_DOWN, player), PERPAD_DOWN, controller);
+  PerSetKey(KEYPAD(PERPAD_LEFT, player), PERPAD_LEFT, controller);
+  PerSetKey(KEYPAD(PERPAD_RIGHT_TRIGGER, player), PERPAD_RIGHT_TRIGGER, controller);
+  PerSetKey(KEYPAD(PERPAD_LEFT_TRIGGER, player), PERPAD_LEFT_TRIGGER, controller);
+  PerSetKey(KEYPAD(PERPAD_START, player), PERPAD_START, controller);
+  PerSetKey(KEYPAD(PERPAD_A, player), PERPAD_A, controller);
+  PerSetKey(KEYPAD(PERPAD_B, player), PERPAD_B, controller);
+  PerSetKey(KEYPAD(PERPAD_C, player), PERPAD_C, controller);
+  PerSetKey(KEYPAD(PERPAD_X, player), PERPAD_X, controller);
+  PerSetKey(KEYPAD(PERPAD_Y, player), PERPAD_Y, controller);
+  PerSetKey(KEYPAD(PERPAD_Z, player), PERPAD_Z, controller);
+}
+
+static void CabInit() {
+  void *controller;
+
+  controller = PerCabAdd(NULL);
+  PerSetKey(PERPAD_UP, PERPAD_UP, controller);
+  PerSetKey(PERPAD_RIGHT, PERPAD_RIGHT, controller);
+  PerSetKey(PERPAD_DOWN, PERPAD_DOWN, controller);
+  PerSetKey(PERPAD_LEFT, PERPAD_LEFT, controller);
+  PerSetKey(PERPAD_A, PERPAD_A, controller);
+  PerSetKey(PERPAD_B, PERPAD_B, controller);
+  PerSetKey(PERPAD_C, PERPAD_C, controller);
+  PerSetKey(PERPAD_X, PERPAD_X, controller);
+
+  PerSetKey(PERJAMMA_COIN1, PERJAMMA_COIN1, controller );
+  PerSetKey(PERJAMMA_COIN2, PERJAMMA_COIN2, controller );
+  PerSetKey(PERJAMMA_TEST, PERJAMMA_TEST, controller);
+  PerSetKey(PERJAMMA_SERVICE, PERJAMMA_SERVICE, controller);
+  PerSetKey(PERJAMMA_START1, PERJAMMA_START1, controller);
+  PerSetKey(PERJAMMA_START2, PERJAMMA_START2, controller);
+  PerSetKey(PERJAMMA_MULTICART, PERJAMMA_MULTICART, controller);
+  PerSetKey(PERJAMMA_PAUSE, PERJAMMA_PAUSE, controller);
 }
 
 int requestExit = 0;
@@ -461,7 +516,7 @@ static int LinuxJoyInit(perlinuxjoy_struct * joystick, const char * path, int id
       joystick->axis[i] = axisinit[i];
    }
 
-   KeyInit();
+   PadInit(id);
    return 0;
 }
 
@@ -570,6 +625,9 @@ int PERLinuxJoyInit(void)
 
    joycount = globbuf.gl_pathc;
    joysticks = calloc(sizeof(perlinuxjoy_struct), joycount);
+
+   PerPortReset();
+
    for(i = 0;i < globbuf.gl_pathc;i++) {
       perlinuxjoy_struct *joy = joysticks + j;
       j = (LinuxJoyInit(joy, globbuf.gl_pathv[i], j)<0)?j:j+1;
@@ -579,6 +637,8 @@ int PERLinuxJoyInit(void)
 
    if (globbuf.gl_pathc <= 0) 
      KeyInit();
+   else
+     CabInit();
 
    return 0;
 }
