@@ -755,16 +755,6 @@ const Game GameList[NB_STV_GAMES]={
    NV_1P,
    {
 	GAME_WORD_BLOB, "pclb297w_ic22_alt",    0x0200000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic24",    0x0400000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic26",    0x0600000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic28",    0x0800000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic30",    0x0a00000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic32",    0x0c00000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic34",    0x0e00000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic36",    0x1000000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic23",    0x1200000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic25",    0x1400000, 0x0200000,
-	GAME_WORD_BLOB, "prc297wi_ic27",    0x1600000, 0x0200000,
         GAME_END, "", 0, 0
     },
   },
@@ -861,7 +851,7 @@ const Game GameList[NB_STV_GAMES]={
         GAME_END, "", 0, 0
     },
   },
-  {"Print Club 2 (U 970921 V1.000)",
+  {"Print Club Kome Kome Club (J 970203 V1.000)",
    0,
    0,
    NULL,
