@@ -12,7 +12,7 @@ matrix:
        apt:
          packages:
             - cmake
-            - libqt5multimedia
+            - qtmultimedia5-dev
      
     # mingw-w64 windows cross compile, libyabause only
     # needs qt and other deps built
