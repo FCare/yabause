@@ -9,7 +9,7 @@ matrix:
       env:
        - QT_BASE=511
       before_install:
-       - sudo apt update
+       - sudo apt-get update
        - sudo apt-get install -y qtmultimedia5-dev
      
     # mingw-w64 windows cross compile, libyabause only
