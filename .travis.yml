@@ -7,12 +7,10 @@ matrix:
       sudo: required
       compiler: gcc
       env:
-       - QT_BASE=511
-      addons:
-       apt:
-         packages:
-            - cmake
-            - libqt5multimedia
+       - QT_BASE=59
+      before_install:
+       - sudo apt-get update
+       - sudo apt-get install -y libqt5multimedia5
      
     # mingw-w64 windows cross compile, libyabause only
     # needs qt and other deps built
