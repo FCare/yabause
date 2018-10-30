@@ -122,14 +122,14 @@ PerBaseConfig_struct percabinetbaseconfig[] = {
 	{ PERPAD_X, PERCB(PerCabXPressed), PERCB(PerCabXReleased), NULL, NULL },
 	{ PERPAD_Y, PERCB(PerCabYPressed), PERCB(PerCabYReleased), NULL, NULL },
 	{ PERPAD_Z, PERCB(PerCabZPressed), PERCB(PerCabZReleased), NULL, NULL },
-	{ PERJAMMA_P2_UP, PERCB(PerCabP2UpPressed), PERCB(PerCabP2UpReleased), NULL, NULL },
-	{ PERJAMMA_P2_RIGHT, PERCB(PerCabP2RightPressed), PERCB(PerCabP2RightReleased), NULL, NULL },
-	{ PERJAMMA_P2_DOWN, PERCB(PerCabP2DownPressed), PERCB(PerCabP2DownReleased), NULL, NULL },
-	{ PERJAMMA_P2_LEFT, PERCB(PerCabP2LeftPressed), PERCB(PerCabP2LeftReleased), NULL, NULL },
-	{ PERJAMMA_P2_BUTTON1, PERCB(PerCabP2Button1Pressed), PERCB(PerCabP2Button1Released), NULL, NULL },
-	{ PERJAMMA_P2_BUTTON2, PERCB(PerCabP2Button2Pressed), PERCB(PerCabP2Button2Released), NULL, NULL },
-	{ PERJAMMA_P2_BUTTON2, PERCB(PerCabP2Button3Pressed), PERCB(PerCabP2Button3Released), NULL, NULL },
-	{ PERJAMMA_P2_BUTTON2, PERCB(PerCabP2Button4Pressed), PERCB(PerCabP2Button4Released), NULL, NULL },
+	{ PERPAD_P2_UP, PERCB(PerCabP2UpPressed), PERCB(PerCabP2UpReleased), NULL, NULL },
+	{ PERPAD_P2_RIGHT, PERCB(PerCabP2RightPressed), PERCB(PerCabP2RightReleased), NULL, NULL },
+	{ PERPAD_P2_DOWN, PERCB(PerCabP2DownPressed), PERCB(PerCabP2DownReleased), NULL, NULL },
+	{ PERPAD_P2_LEFT, PERCB(PerCabP2LeftPressed), PERCB(PerCabP2LeftReleased), NULL, NULL },
+	{ PERPAD_P2_A, PERCB(PerCabAP2Pressed), PERCB(PerCabAP2Released), NULL, NULL },
+	{ PERPAD_P2_B, PERCB(PerCabBP2Pressed), PERCB(PerCabBP2Released), NULL, NULL },
+	{ PERPAD_P2_C, PERCB(PerCabCP2Pressed), PERCB(PerCabCP2Released), NULL, NULL },
+	{ PERPAD_P2_X, PERCB(PerCabXP2Pressed), PERCB(PerCabXP2Released), NULL, NULL },
 };
 
 PerBaseConfig_struct permousebaseconfig[] = {
@@ -837,6 +837,88 @@ void PerMouseStartPressed(PerMouse_struct * mouse) {
 
 void PerMouseStartReleased(PerMouse_struct * mouse) {
    *(mouse->mousebits) &= 0xF7;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+/* P2 inputs */
+
+void PerCabUPP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x5);
+}
+
+void PerCabUPP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x5);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabDOWNP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x4);
+}
+
+void PerCabDOWNP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x4);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabRIGHTP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x6);
+}
+
+void PerCabRIGHTP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x6);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabLEFTP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x7);
+}
+
+void PerCabLEFTP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x7);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabAP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x0);
+}
+
+void PerCabAP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x0);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabBP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x1);
+}
+
+void PerCabBP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x1);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabCP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x2);
+}
+
+void PerCabCP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x2);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+void PerCabXP2Pressed(PerCab_struct * pad) {
+   pad[PORT_B] &= ~(0x1 << 0x3);
+}
+
+void PerCabXP2Released(PerCab_struct * pad) {
+   pad[PORT_B] |= (0x1 << 0x3);
 }
 
 //////////////////////////////////////////////////////////////////////////////
