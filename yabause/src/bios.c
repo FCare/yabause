@@ -50,9 +50,6 @@ static u32 scumasklist[0x20] = {
 
 u32 interruptlist[2][0x80];
 
-extern u32 backup_file_addr;
-extern u32 backup_file_size;
-
 static void FASTCALL BiosBUPRead(SH2_struct * sh);
 //////////////////////////////////////////////////////////////////////////////
 
