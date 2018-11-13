@@ -379,6 +379,8 @@ extern "C" {
   extern u8 *BiosRom;
   extern u8 *BupRam;
   extern u8 BupRamWritten;
+  extern u32 backup_file_addr;
+  extern u32 backup_file_size;
 
   typedef void (FASTCALL *writebytefunc)(SH2_struct *context, u8*, u32, u8);
   typedef void (FASTCALL *writewordfunc)(SH2_struct *context, u8*, u32, u16);
