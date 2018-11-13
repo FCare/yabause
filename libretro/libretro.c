@@ -121,6 +121,7 @@ void retro_set_environment(retro_environment_t cb)
       { "kronos_resolution_mode", "Resolution Mode; original|2x|4x|8x|16x" },
       { "kronos_polygon_mode", "Polygon Mode; perspective_correction|gpu_tesselation|cpu_tesselation" },
       { "kronos_scanlines", "Scanlines; disabled|enabled" },
+      { "kronos_service_enabled", "Service/Test Buttons; disabled|enabled" },
       { NULL, NULL },
    };
 
@@ -171,6 +172,7 @@ void retro_set_input_state(retro_input_state_t cb) { input_state_cb = cb; }
 static int pad_type[12] = {1,1,1,1,1,1,1,1,1,1,1,1};
 static unsigned players = 2;
 static bool multitap[2] = {0,0};
+static bool service_enabled = false;
 
 int PERLIBRETROInit(void)
 {
@@ -259,6 +261,19 @@ static int PERLIBRETROHandleEvents(void)
    unsigned i = 0;
 
    input_poll_cb();
+
+   if (stv_mode && service_enabled)
+   {
+      if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2))
+         PerKeyDown(PERJAMMA_TEST);
+      else
+         PerKeyUp(PERJAMMA_TEST);
+
+      if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R2))
+         PerKeyDown(PERJAMMA_SERVICE);
+      else
+         PerKeyUp(PERJAMMA_SERVICE);
+   }
 
    for(i = 0; i < players; i++)
    {
@@ -905,6 +920,15 @@ void check_variables(void)
          scanlines = 1;
    }
 
+   var.key = "kronos_service_enabled";
+   var.value = NULL;
+    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "enabled") == 0)
+         service_enabled = true;
+      else
+         service_enabled = false;
+   }
 }
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
@@ -1009,7 +1033,6 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
 static char full_path[256];
 static char bios_path[256];
 static char stv_bios_path[256];
-static char stv_bup_path[256];
 
 static int does_file_exist(const char *filename)
 {
@@ -1089,6 +1112,8 @@ bool retro_load_game_common()
    yinit.polygon_generation_mode = polygon_mode;
    yinit.scanline                = scanlines;
    yinit.stretch                 = 1;
+   yinit.extend_backup           = 0;
+   yinit.buppath                 = NULL;
 
    return true;
 }
@@ -1107,8 +1132,6 @@ bool retro_load_game(const struct retro_game_info *info)
 #else
    char slash = '/';
 #endif
-
-   snprintf(stv_bup_path, sizeof(stv_bup_path), "%s%ckronos%cbupstv.ram", g_save_dir, slash, slash);
 
    snprintf(stv_bios_path, sizeof(stv_bios_path), "%s%ckronos%cstvbios.zip", g_system_dir, slash, slash);
    if (does_file_exist(stv_bios_path) != 1)
@@ -1169,6 +1192,8 @@ bool retro_load_game(const struct retro_game_info *info)
          { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,      "Button 4" },
          { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Coin" },
          { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Start" },
+         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2,     "Test" },
+         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R2,     "Service" },
 
          { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D-Pad Left" },
          { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "D-Pad Up" },
@@ -1191,8 +1216,6 @@ bool retro_load_game(const struct retro_game_info *info)
       yinit.cartpath        = NULL;
       yinit.carttype        = CART_ROMSTV;
       yinit.stvbiospath     = stv_bios_path;
-      yinit.extend_backup   = 0;
-      yinit.buppath         = stv_bup_path;
    }
    else
    {
@@ -1435,8 +1458,6 @@ bool retro_load_game(const struct retro_game_info *info)
       yinit.cdpath          = full_path;
       yinit.biospath        = (hle_bios_force ? NULL : bios_path);
       yinit.carttype        = addon_cart_type;
-      yinit.extend_backup   = 1;
-      yinit.buppath         = NULL;
    }
 
    return retro_load_game_common();
@@ -1480,7 +1501,7 @@ size_t retro_get_memory_size(unsigned id)
    switch (id)
    {
       case RETRO_MEMORY_SAVE_RAM:
-         return 0x10000;
+         return backup_file_size;
       default:
          break;
    }
