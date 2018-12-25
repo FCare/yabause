@@ -419,7 +419,10 @@ void Vdp2HBlankIN(void) {
   } else {
 // Fix : Function doesn't exist without those defines
 #if defined(HAVE_LIBGL) || defined(__ANDROID__) || defined(IOS)
+     // For whatever reason, some setup need to take a hold of the context here
+     YuiUseOGLOnThisThread();
      waitVdp2DrawScreensEnd(yabsys.LineCount == yabsys.VBlankLineCount);
+     YuiRevokeOGLOnThisThread();
 #endif
   }
 }
