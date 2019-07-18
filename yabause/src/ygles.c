@@ -2796,6 +2796,7 @@ static void executeTMVDP1(int in, int out) {
     YglRenderVDP1();
     //YuiRevokeOGLOnThisThread();
     _Ygl->syncVdp1[in] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE,0);
+    glFlush();
     YglReset(_Ygl->vdp1levels[out]);
     YglTmPull(YglTM_vdp1[out], 0);
     _Ygl->needVdp1Render = 0;
