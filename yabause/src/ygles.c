@@ -2781,7 +2781,7 @@ static void waitVdp1End(int id) {
   if (_Ygl->syncVdp1[id] != 0) {
     while (end == 0) {
       int ret;
-      ret = glClientWaitSync(_Ygl->syncVdp1[id], 0, 20000000);
+      ret = glClientWaitSync(_Ygl->syncVdp1[id], GL_SYNC_FLUSH_COMMANDS_BIT, 0);
       if ((ret == GL_CONDITION_SATISFIED) || (ret == GL_ALREADY_SIGNALED)) end = 1;
     }
     glDeleteSync(_Ygl->syncVdp1[id]);
@@ -2796,7 +2796,6 @@ static void executeTMVDP1(int in, int out) {
     YglRenderVDP1();
     //YuiRevokeOGLOnThisThread();
     _Ygl->syncVdp1[in] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE,0);
-    glFlush();
     YglReset(_Ygl->vdp1levels[out]);
     YglTmPull(YglTM_vdp1[out], 0);
     _Ygl->needVdp1Render = 0;
