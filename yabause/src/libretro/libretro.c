@@ -1580,6 +1580,24 @@ void retro_run(void)
    }
 
    YabauseExec();
+
+// Workaround for unclean gl state at the end of retro_run (causes issues with retroarch ui otherwise)
+// Should be disabled whenever it's possible
+#define UNCLEAN_GL_STATE 1
+
+#if UNCLEAN_GL_STATE
+   //glUseProgram(0);
+   //glGetError();
+   //glBindBuffer(GL_ARRAY_BUFFER, 0);
+   glBindBuffer(GL_PIXEL_UNPACK_BUFFER,0);
+   //glDisableVertexAttribArray(0);
+   //glDisableVertexAttribArray(1);
+   //glDisableVertexAttribArray(2);
+   //glDisable(GL_DEPTH_TEST);
+   //glDisable(GL_SCISSOR_TEST);
+   //glDisable(GL_STENCIL_TEST);
+   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);   
+#endif
 }
 
 #ifdef ANDROID
