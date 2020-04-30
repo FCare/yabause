@@ -83,6 +83,7 @@ static bool stv_mode = false;
 static bool all_devices_ready = false;
 static bool libretro_supports_bitmasks = false;
 static bool rendering_started = false;
+static int resolution_need_update = 0;
 static int16_t libretro_input_bitmask[12] = {-1,};
 static int pad_type[12] = {RETRO_DEVICE_NONE,};
 static int multitap[2] = {0,0};
@@ -765,6 +766,7 @@ void retro_set_resolution()
       log_cb(RETRO_LOG_INFO, "Restart the core for the new resolution\n", resolution_mode);
       resolution_mode = initial_resolution_mode;
    }
+   if (resolution_need_update > 0) resolution_need_update--;
    retro_reinit_av_info();
    VIDCore->SetSettingValue(VDP_SETTING_RESOLUTION_MODE, resolution_mode);
    VIDCore->Resize(0, 0, window_width, window_height, 0);
@@ -775,7 +777,7 @@ void YuiSwapBuffers(void)
    int prev_game_width = game_width;
    int prev_game_height = game_height;
    VIDCore->GetNativeResolution(&game_width, &game_height, &game_interlace);
-   if ((prev_game_width != game_width) || (prev_game_height != game_height))
+   if ((resolution_need_update > 0) || (prev_game_width != game_width) || (prev_game_height != game_height))
       retro_set_resolution();
    audio_size = soundlen;
    video_cb(RETRO_HW_FRAME_BUFFER_VALID, _Ygl->width, _Ygl->height, 0);
@@ -1600,8 +1602,7 @@ void retro_run(void)
       int prev_resolution_mode = resolution_mode;
       int prev_multitap[2] = {multitap[0],multitap[1]};
       check_variables();
-      if(prev_resolution_mode != resolution_mode)
-         retro_set_resolution();
+      resolution_need_update = (prev_resolution_mode != resolution_mode ? 2 : 0);
       if(PERCore && (prev_multitap[0] != multitap[0] || prev_multitap[1] != multitap[1]))
          PERCore->Init();
       VIDCore->SetSettingValue(VDP_SETTING_POLYGON_MODE, polygon_mode);
