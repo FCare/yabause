@@ -123,6 +123,8 @@ static retro_audio_sample_batch_t audio_batch_cb;
 
 extern struct retro_hw_render_callback hw_render;
 
+#define RETRO_DEVICE_WHEEL RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 1)
+
 void retro_set_environment(retro_environment_t cb)
 {
    environ_cb = cb;
@@ -140,22 +142,23 @@ void retro_set_environment(retro_environment_t cb)
    static const struct retro_controller_description peripherals[] = {
        { "Saturn Pad", RETRO_DEVICE_JOYPAD },
        { "Saturn 3D Pad", RETRO_DEVICE_ANALOG },
+       { "Saturn Wheel", RETRO_DEVICE_WHEEL },
        { "None", RETRO_DEVICE_NONE },
    };
 
    static const struct retro_controller_info ports[] = {
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
-      { peripherals, 3 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
+      { peripherals, 4 },
       { NULL, 0 },
    };
 
@@ -239,6 +242,13 @@ int PERLIBRETROInit(void)
             for(j = PERPAD_UP; j <= PERPAD_Z; j++)
                PerSetKey((i << 8) + j, j, controller);
             for(j = PERANALOG_AXIS1; j <= PERANALOG_AXIS7; j++)
+               PerSetKey((i << 8) + j, j, controller);
+            break;
+         case RETRO_DEVICE_WHEEL:
+            controller = (void*)PerWheelAdd(portdata);
+            for(j = PERPAD_UP; j <= PERPAD_Z; j++)
+               PerSetKey((i << 8) + j, j, controller);
+            for(j = PERANALOG_AXIS1; j <= PERANALOG_AXIS1; j++)
                PerSetKey((i << 8) + j, j, controller);
             break;
          case RETRO_DEVICE_JOYPAD:
@@ -479,10 +489,6 @@ static int update_inputs(void)
          switch(pad_type[i])
          {
             case RETRO_DEVICE_ANALOG:
-               analog_left_x = input_state_cb_wrapper(i, RETRO_DEVICE_ANALOG,
-                     RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X);
-
-               PerAxisValue((i << 8) + PERANALOG_AXIS1, (u8)((analog_left_x + 0x8000) >> 8));
 
                analog_left_y = input_state_cb_wrapper(i, RETRO_DEVICE_ANALOG,
                      RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y);
@@ -501,6 +507,13 @@ static int update_inputs(void)
 
                PerAxisValue((i << 8) + PERANALOG_AXIS3, (u8)((r_trigger > 0 ? r_trigger + 0x8000 : 0) >> 8));
                PerAxisValue((i << 8) + PERANALOG_AXIS4, (u8)((l_trigger > 0 ? l_trigger + 0x8000 : 0) >> 8));
+
+            case RETRO_DEVICE_WHEEL:
+
+               analog_left_x = input_state_cb_wrapper(i, RETRO_DEVICE_ANALOG,
+                     RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X);
+
+               PerAxisValue((i << 8) + PERANALOG_AXIS1, (u8)((analog_left_x + 0x8000) >> 8));
 
             case RETRO_DEVICE_JOYPAD:
 
