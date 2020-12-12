@@ -123,7 +123,8 @@ static retro_audio_sample_batch_t audio_batch_cb;
 
 extern struct retro_hw_render_callback hw_render;
 
-#define RETRO_DEVICE_WHEEL RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 1)
+#define RETRO_DEVICE_3DPAD RETRO_DEVICE_ANALOG
+#define RETRO_DEVICE_WHEEL RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 0)
 
 void retro_set_environment(retro_environment_t cb)
 {
@@ -141,24 +142,25 @@ void retro_set_environment(retro_environment_t cb)
 
    static const struct retro_controller_description peripherals[] = {
        { "Saturn Pad", RETRO_DEVICE_JOYPAD },
-       { "Saturn 3D Pad", RETRO_DEVICE_ANALOG },
+       { "Saturn 3D Pad", RETRO_DEVICE_3DPAD },
        { "Saturn Wheel", RETRO_DEVICE_WHEEL },
+       { "Saturn Mouse", RETRO_DEVICE_MOUSE },
        { "None", RETRO_DEVICE_NONE },
    };
 
    static const struct retro_controller_info ports[] = {
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
-      { peripherals, 4 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
+      { peripherals, 5 },
       { NULL, 0 },
    };
 
@@ -172,6 +174,8 @@ void retro_set_input_state(retro_input_state_t cb) { input_state_cb = cb; }
 
 // PERLIBRETRO
 #define PERCORE_LIBRETRO 2
+
+static PerMouse_struct* mousebits = NULL;
 
 int PERLIBRETROInit(void)
 {
@@ -227,17 +231,14 @@ int PERLIBRETROInit(void)
    for(i = 0; i < players; i++)
    {
       //Ports can handle 6 peripherals, fill port 1 first.
-      if((players > 2 && i < 6) || i == 0)
-         portdata = &PORTDATA1;
-      else
-         portdata = &PORTDATA2;
+      portdata = ((players > 2 && i < 6) || i == 0 ? &PORTDATA1 : &PORTDATA2);
 
       switch(pad_type[i])
       {
          case RETRO_DEVICE_NONE:
             controller = NULL;
             break;
-         case RETRO_DEVICE_ANALOG:
+         case RETRO_DEVICE_3DPAD:
             controller = (void*)Per3DPadAdd(portdata);
             for(j = PERPAD_UP; j <= PERPAD_Z; j++)
                PerSetKey((i << 8) + j, j, controller);
@@ -248,8 +249,12 @@ int PERLIBRETROInit(void)
             controller = (void*)PerWheelAdd(portdata);
             for(j = PERPAD_UP; j <= PERPAD_Z; j++)
                PerSetKey((i << 8) + j, j, controller);
-            for(j = PERANALOG_AXIS1; j <= PERANALOG_AXIS1; j++)
-               PerSetKey((i << 8) + j, j, controller);
+            PerSetKey((i << 8) + PERANALOG_AXIS1, PERANALOG_AXIS1, controller);
+            break;
+         case RETRO_DEVICE_MOUSE:
+            mousebits = PerMouseAdd(portdata);
+            for(j = PERMOUSE_LEFT; j <= PERMOUSE_START; j++)
+               PerSetKey((i << 8) + j, j, mousebits);
             break;
          case RETRO_DEVICE_JOYPAD:
          default:
@@ -488,7 +493,7 @@ static int update_inputs(void)
 
          switch(pad_type[i])
          {
-            case RETRO_DEVICE_ANALOG:
+            case RETRO_DEVICE_3DPAD:
 
                analog_left_y = input_state_cb_wrapper(i, RETRO_DEVICE_ANALOG,
                      RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y);
@@ -578,6 +583,22 @@ static int update_inputs(void)
                   PerKeyDown((i << 8) + PERPAD_RIGHT_TRIGGER);
                else
                   PerKeyUp((i << 8) + PERPAD_RIGHT_TRIGGER);
+               break;
+
+            case RETRO_DEVICE_MOUSE:
+
+               (input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT) ? PerKeyDown((i << 8) + PERMOUSE_LEFT) : PerKeyUp((i << 8) + PERMOUSE_LEFT));
+               (input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_MIDDLE) ? PerKeyDown((i << 8) + PERMOUSE_MIDDLE) : PerKeyUp((i << 8) + PERMOUSE_MIDDLE));
+               (input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT) ? PerKeyDown((i << 8) + PERMOUSE_RIGHT) : PerKeyUp((i << 8) + PERMOUSE_RIGHT));
+               // there are some issues with libretro's mouse button 4 & 5 ?
+               // let's also use joypad's start for safety
+               (input_state_cb_wrapper(i, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START) || input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_BUTTON_4) || input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_BUTTON_5) ? PerKeyDown((i << 8) + PERMOUSE_START) : PerKeyUp((i << 8) + PERMOUSE_START));
+
+               // is saturn supposed to be able to use several mouse ?
+               // because i don't think this code is right in that case
+               s32 dispx = input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_X);
+               s32 dispy = input_state_cb_wrapper(i, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_Y);
+               PerMouseMove(mousebits, dispx, -dispy);
                break;
 
             default:
