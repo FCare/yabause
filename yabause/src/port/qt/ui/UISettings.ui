@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>513</width>
-    <height>523</height>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,99 +24,14 @@
        <string>General</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout1">
-       <item row="21" column="0">
-        <widget class="QCheckBox" name="cbEnableMultiThreading">
-         <property name="text">
-          <string>Enable Multithreading</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="0">
-        <widget class="QCheckBox" name="cbClockSync">
-         <property name="text">
-          <string>Synchronize Saturn internal clock with set time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="0">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="leBios"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QToolButton" name="tbBios">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QLabel" name="lCdRom">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>CD-ROM</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QComboBox" name="cbCdRom"/>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLineEdit" name="leCdRom"/>
-       </item>
-       <item row="7" column="1">
+       <item row="10" column="1">
         <widget class="QToolButton" name="tbCdRom">
          <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QLabel" name="lSaveStates">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Save States</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLineEdit" name="leSaveStates"/>
-       </item>
-       <item row="9" column="1">
-        <widget class="QToolButton" name="tbSaveStates">
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="2">
+       <item row="15" column="0" colspan="2">
         <widget class="QLabel" name="lTranslation">
          <property name="font">
           <font>
@@ -132,31 +47,126 @@
          </property>
         </widget>
        </item>
-       <item row="14" column="0" colspan="2">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="25" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Number of Threads</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="0" colspan="2">
+       <item row="18" column="0" colspan="2">
         <widget class="QCheckBox" name="cbEnableVSync">
          <property name="text">
           <string>Enable vertical synchronization</string>
          </property>
         </widget>
        </item>
-       <item row="16" column="0" colspan="2">
-        <widget class="QCheckBox" name="cbShowFPS">
+       <item row="1" column="1">
+        <widget class="QToolButton" name="tbBios">
          <property name="text">
-          <string>Show FPS</string>
+          <string>...</string>
          </property>
         </widget>
        </item>
-       <item row="17" column="0" colspan="2">
+       <item row="16" column="0" colspan="2">
+        <widget class="QComboBox" name="cbTranslation"/>
+       </item>
+       <item row="24" column="0">
+        <widget class="QCheckBox" name="cbEnableMultiThreading">
+         <property name="text">
+          <string>Enable Multithreading</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QLabel" name="lSaveStates">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Save States</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QComboBox" name="cbCdRom"/>
+       </item>
+       <item row="9" column="0" colspan="2">
+        <widget class="QComboBox" name="cbCdDrive">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="0" colspan="2">
         <widget class="QCheckBox" name="cbAutostart">
          <property name="text">
           <string>Autostart</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QLabel" name="lCdRom">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>CD-ROM</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="22" column="0">
+        <widget class="QCheckBox" name="cbClockSync">
+         <property name="text">
+          <string>Synchronize Saturn internal clock with set time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="26" column="0">
+        <spacer>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>2</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="cbEnableBiosEmulation">
+         <property name="text">
+          <string>Enable Bios Emulation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLineEdit" name="leSaveStates"/>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLineEdit" name="leCdRom"/>
+       </item>
+       <item row="12" column="1">
+        <widget class="QToolButton" name="tbSaveStates">
+         <property name="text">
+          <string>...</string>
          </property>
         </widget>
        </item>
@@ -176,42 +186,51 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QComboBox" name="cbCdDrive">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="19" column="0" colspan="2">
+        <widget class="QCheckBox" name="cbShowFPS">
+         <property name="text">
+          <string>Show FPS</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QComboBox" name="cbTranslation"/>
+       <item row="25" column="1">
+        <widget class="QSpinBox" name="sbNumberOfThreads"/>
        </item>
-       <item row="20" column="0">
+       <item row="17" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="0">
         <widget class="QDateTimeEdit" name="dteBaseTime">
          <property name="calendarPopup">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="22" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="leBios"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="lSysLanguageID">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Number of Threads</string>
+          <string>Bios Language</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
          </property>
         </widget>
        </item>
-       <item row="22" column="1">
-        <widget class="QSpinBox" name="sbNumberOfThreads"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="cbEnableBiosEmulation">
-         <property name="text">
-          <string>Enable Bios Emulation</string>
-         </property>
-        </widget>
+       <item row="5" column="0" colspan="2">
+        <widget class="QComboBox" name="cbSysLanguageID"/>
        </item>
       </layout>
      </widget>
@@ -284,204 +303,204 @@
          </property>
         </widget>
        </item>
-		<item row="19" column="0">
-			<widget class="QLabel" name="UpscaleFilter">
-				<property name="font">
-				<font>
-					<weight>75</weight>
-					<bold>true</bold>
-				</font>
-				</property>
-				<property name="text">
-					<string>Upscale Filter :</string>
-				</property>
-				<property name="textFormat">
-					<enum>Qt::PlainText</enum>
-				</property>
-				<property name="alignment" >
-					<set>Qt::AlignRight|Qt::AlignVCenter</set>
-				</property>
-			</widget>
-		</item>
-		<item row="19" column="1">
-			<widget class="QComboBox" name="cbUpscaleMode"/>
-		</item>
-		<item row="20" column="0">
-			<widget class="QLabel" name="Embellishmentfilter">
-				<property name="font">
-				<font>
-					<weight>75</weight>
-					<bold>true</bold>
-				</font>
-				</property>
-				<property name="text">
-					<string>Embellishment filter :</string>
-				</property>
-				<property name="textFormat">
-					<enum>Qt::PlainText</enum>
-				</property>
-				<property name="alignment" >
-					<set>Qt::AlignRight|Qt::AlignVCenter</set>
-				</property>
-			</widget>
-		</item>
-		<item row="20" column="1">
-		<widget class="QComboBox" name="cbFilterMode"/>
-		</item>
-		<item row="21" column="0">
-			<widget class="QLabel" name="OpenGLSize">
-				<property name="font">
-				<font>
-					<weight>75</weight>
-					<bold>true</bold>
-				</font>
-				</property>
-				<property name="text">
-					<string>Window size :</string>
-				</property>
-				<property name="textFormat">
-					<enum>Qt::PlainText</enum>
-				</property>
-				<property name="alignment" >
-					<set>Qt::AlignRight|Qt::AlignVCenter</set>
-				</property>
-			</widget>
-		</item>
+       <item row="19" column="0">
+        <widget class="QLabel" name="UpscaleFilter">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Upscale Filter :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="1">
+        <widget class="QComboBox" name="cbUpscaleMode"/>
+       </item>
+       <item row="20" column="0">
+        <widget class="QLabel" name="Embellishmentfilter">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Embellishment filter :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="1">
+        <widget class="QComboBox" name="cbFilterMode"/>
+       </item>
+       <item row="21" column="0">
+        <widget class="QLabel" name="OpenGLSize">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Window size :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item row="21" column="1">
         <widget class="QComboBox" name="cbResolution"/>
        </item>
-		<item row="22" column="0">
-			<widget class="QLabel" name="Tesselation">
-				<property name="font">
-				<font>
-					<weight>75</weight>
-					<bold>true</bold>
-				</font>
-				</property>
-				<property name="text">
-					<string>Tesselation :</string>
-				</property>
-				<property name="textFormat">
-					<enum>Qt::PlainText</enum>
-				</property>
-				<property name="alignment" >
-					<set>Qt::AlignRight|Qt::AlignVCenter</set>
-				</property>
-			</widget>
-		</item>
+       <item row="22" column="0">
+        <widget class="QLabel" name="Tesselation">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tesselation :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item row="22" column="1">
         <widget class="QComboBox" name="cbPolygonGeneration"/>
        </item>
-		<item row="23" column="0">
-			<widget class="QLabel" name="TVEffect">
-				<property name="font">
-				<font>
-					<weight>75</weight>
-					<bold>true</bold>
-				</font>
-				</property>
-				<property name="text">
-					<string>TV effect :</string>
-				</property>
-				<property name="textFormat">
-					<enum>Qt::PlainText</enum>
-				</property>
-				<property name="alignment" >
-					<set>Qt::AlignRight|Qt::AlignVCenter</set>
-				</property>
-			</widget>
-		</item>
-    <item row="23" column="1">
-      <widget class="QComboBox" name="cbScanlineFilter"/>
-    </item>
-    <item row="24" column="0">
-      <widget class="QLabel" name="MeshMode">
-        <property name="font">
-        <font>
-          <weight>75</weight>
-          <bold>true</bold>
-        </font>
-        </property>
-        <property name="text">
-          <string>Mesh Mode :</string>
-        </property>
-        <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-        </property>
-        <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignVCenter</set>
-        </property>
-      </widget>
-    </item>
-    <item row="24" column="1">
-      <widget class="QComboBox" name="cbMeshModeFilter"/>
-    </item>
-    <item row="25" column="0">
-      <widget class="QLabel" name="GPU RBG">
-        <property name="font">
+       <item row="23" column="0">
+        <widget class="QLabel" name="TVEffect">
+         <property name="font">
           <font>
-            <weight>75</weight>
-            <bold>true</bold>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
-        </property>
-        <property name="text">
+         </property>
+         <property name="text">
+          <string>TV effect :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="1">
+        <widget class="QComboBox" name="cbScanlineFilter"/>
+       </item>
+       <item row="24" column="0">
+        <widget class="QLabel" name="MeshMode">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Mesh Mode :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="24" column="1">
+        <widget class="QComboBox" name="cbMeshModeFilter"/>
+       </item>
+       <item row="25" column="0">
+        <widget class="QLabel" name="GPU RBG">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
           <string>GPU RBG :</string>
-        </property>
-        <property name="textFormat">
+         </property>
+         <property name="textFormat">
           <enum>Qt::PlainText</enum>
-        </property>
-        <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignVCenter</set>
-        </property>
-      </widget>
-    </item>
-    <item row="25" column="1">
-      <widget class="QComboBox" name="cbGPURBG"/>
-    </item>
-    <item row="26" column="0">
-      <widget class="QLabel" name="BandingMode">
-        <property name="font">
-        <font>
-          <weight>75</weight>
-          <bold>true</bold>
-        </font>
-        </property>
-        <property name="text">
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="25" column="1">
+        <widget class="QComboBox" name="cbGPURBG"/>
+       </item>
+       <item row="26" column="0">
+        <widget class="QLabel" name="BandingMode">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
           <string>Gouraud Mode :</string>
-        </property>
-        <property name="textFormat">
+         </property>
+         <property name="textFormat">
           <enum>Qt::PlainText</enum>
-        </property>
-        <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignVCenter</set>
-        </property>
-      </widget>
-    </item>
-    <item row="26" column="1">
-      <widget class="QComboBox" name="cbBandingModeFilter"/>
-    </item>
-    <item row="27" column="0">
-			<widget class="QLabel" name="Wireframe">
-				<property name="font">
-				<font>
-					<weight>75</weight>
-					<bold>true</bold>
-				</font>
-				</property>
-				<property name="text">
-					<string>Wireframe :</string>
-				</property>
-				<property name="textFormat">
-					<enum>Qt::PlainText</enum>
-				</property>
-				<property name="alignment" >
-					<set>Qt::AlignRight|Qt::AlignVCenter</set>
-				</property>
-			</widget>
-		</item>
-    <item row="27" column="1">
-      <widget class="QComboBox" name="cbWireframeFilter"/>
-    </item>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="26" column="1">
+        <widget class="QComboBox" name="cbBandingModeFilter"/>
+       </item>
+       <item row="27" column="0">
+        <widget class="QLabel" name="Wireframe">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Wireframe :</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="1">
+        <widget class="QComboBox" name="cbWireframeFilter"/>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="wSound">
@@ -1057,8 +1076,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="bgShowMenubar"/>
-  <buttongroup name="bgShowLogWindow"/>
   <buttongroup name="bgShowToolbar"/>
+  <buttongroup name="bgShowMenubar"/>
  </buttongroups>
 </ui>
