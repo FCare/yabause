@@ -1865,6 +1865,7 @@ int YglBlitTexture(int* prioscreens, int* modescreens, int* isRGB, int * isBlur,
   glUniform1i(glGetUniformLocation(vdp2blit_prg, "win1"), Win1);
   glUniform1i(glGetUniformLocation(vdp2blit_prg, "win1_mode"), Win1_mode);
   glUniform1i(glGetUniformLocation(vdp2blit_prg, "win_op"), Win_op);
+#ifndef __LIBRETRO__
   if (((varVdp2Regs->TVMD>>6)&0x3) == 0){
     //double density interlaced or progressive _ Do not mix fields. Maybe required by double density. To check
     glUniform1i(glGetUniformLocation(vdp2blit_prg, "nbFrame"),2);
@@ -1875,6 +1876,9 @@ int YglBlitTexture(int* prioscreens, int* modescreens, int* isRGB, int * isBlur,
     else
     glUniform1i(glGetUniformLocation(vdp2blit_prg, "nbFrame"),0);
   }
+#else
+  glUniform1i(glGetUniformLocation(vdp2blit_prg, "nbFrame"),-1);
+#endif
 
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_BLEND);
