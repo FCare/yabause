@@ -2091,7 +2091,7 @@ static int ISOCDReadSectorFADFromCHD(u32 FAD, void *buffer) {
   chdlba = loglba;
   for (i = 0; i < disc.session_num; i++)
   {
-    for (j = 0; j < disc.session[i].track_num; j++)
+    for (j = 0; j < disc.session[i].track_num-1 ; j++)
     {
       //if (j == 1) {
       //  int a = 0;
@@ -2132,7 +2132,14 @@ static int ISOCDReadSectorFADFromCHD(u32 FAD, void *buffer) {
     }
   }
   else {
-    memcpy(buffer, pChdInfo->hunk_buffer + hunk_offset, track->sector_size);
+    if (track->sector_size == 2048)
+    {
+      memcpy(buffer, syncHdr, 12);
+      memcpy((char *)buffer + 0x10, pChdInfo->hunk_buffer + hunk_offset, track->sector_size);
+    }
+    else {
+      memcpy(buffer, pChdInfo->hunk_buffer + hunk_offset, track->sector_size);
+    }
   }
 
   return 1;
