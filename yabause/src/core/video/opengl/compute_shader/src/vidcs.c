@@ -219,7 +219,7 @@ void VIDCSVdp1NormalSpriteDraw(vdp1cmd_struct *cmd, u8 * ram, Vdp1 * regs, u8* b
 
   if (((cmd->CMDPMOD >> 3) & 0x7u) == 5) {
     // hard/vdp2/hon/p09_20.htm#no9_21
-    u32 *cclist = (u32 *)&(Vdp2Lines[0].CCRSA);
+    u16 *cclist = &(Vdp2Lines[0].CCRSA);
     cclist[0] &= 0x1Fu;
   }
   cmd->SPCTL = Vdp2Lines[0].SPCTL;
@@ -266,7 +266,7 @@ void VIDCSVdp1DistortedSpriteDraw(vdp1cmd_struct *cmd, u8 * ram, Vdp1 * regs, u8
 
   if (((cmd->CMDPMOD >> 3) & 0x7u) == 5) {
     // hard/vdp2/hon/p09_20.htm#no9_21
-    u32 *cclist = (u32 *)&(Vdp2Lines[0].CCRSA);
+    u16 *cclist = &(Vdp2Lines[0].CCRSA);
     cclist[0] &= 0x1Fu;
   }
   //gouraud
